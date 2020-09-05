@@ -63,8 +63,6 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-
-
     this.loading = true;
     this.userService.register(this.registerForm.value)
       .pipe(first())
@@ -81,30 +79,23 @@ export class RegisterComponent implements OnInit {
         });
   }
 
-
-  handleImageInput(imageInput: any) {
-    this.registerForm.controls['imageName'].setValue(imageInput.target.files[0].name);
+handleFileInput(event,ControlerName,Controler) {
+  let maxFileSize = 1 * 1024 * 1024;
+  if(maxFileSize> event.target.files[0].size) {
+    this.registerForm.controls[ControlerName].setValue(event.target.files[0].name);
+    const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const image = new Image();
-      image.src = e.target.result;
-      image.onload = rs => {
-        const imgBase64Path = e.target.result;
-        this.cardImageBase64 = imgBase64Path;
-        this.registerForm.controls['image'].setValue(this.cardImageBase64, { emitModelToViewChange: false });
-      };
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+        console.log(reader.result);
+        this.registerForm.controls[Controler].setValue(reader.result, { emitModelToViewChange: false });
     };
-    reader.readAsDataURL(imageInput.target.files[0]);
+  } else {
+    alert('Maximum 1mb file should be allowed');
   }
+ 
+  
+}
 
-  handleFileInput(FileInput: any) {
-    this.registerForm.controls['resumeName'].setValue(FileInput.target.files[0].name);
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const imgBase64Path = e.target.result;
-      this.FileBase64 = imgBase64Path;
-      this.registerForm.controls['resume'].setValue(this.FileBase64, { emitModelToViewChange: false });
-    };
-    reader.readAsDataURL(FileInput.target.files[0]);
-  }
+  
 }

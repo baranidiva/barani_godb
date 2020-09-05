@@ -2,6 +2,10 @@
 body {
     background-color: #e9ecef;
 }
+a {
+    cursor: pointer;
+    color: #0056b3 !important;
+}
 .section {
     position: relative;
     margin-left: -50% !important;

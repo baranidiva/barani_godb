@@ -60,26 +60,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
 
-
-    downloadImage() {
-        const dataurl = this.currentUser.image;
-        const filename = this.currentUser.imageName;
-        const format = this.currentUser.imageName.split('.').pop();
-        const arr = dataurl.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        FileSaver.saveAs(new File([u8arr], filename, {type: format}));
-      }
-
-      downloadResume() {
-        const dataurl = this.currentUser.resume;
-        const filename = this.currentUser.resumeName;
-        const format = this.currentUser.resumeName.split('.').pop();
+      downloadFile(data,filesname) {
+        const dataurl = data;
+        const filename = filesname;
+        const format = filename.split('.').pop();
         const arr = dataurl.split(',');
         const mime = arr[0].match(/:(.*?);/)[1];
         const bstr = atob(arr[1]);
