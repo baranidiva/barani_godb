@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { User } from './models';
+import { Router } from '@angular/router';
+import { AuthenticationService } from './services';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'GoDB';
+  currentUser: User;
+
+  constructor(
+      private router: Router,
+      private authenticationService: AuthenticationService
+  ) {
+      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
+
+  logout() {
+      this.authenticationService.logout();
+      this.router.navigate(['/login']);
+  }
 }
